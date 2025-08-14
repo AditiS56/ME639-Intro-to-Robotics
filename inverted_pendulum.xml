@@ -1,0 +1,28 @@
+<mujoco model="inverted_pendulum">
+    <option timestep="0.002" gravity="0 0 -9.81" />
+
+    <worldbody>
+        <!-- Ground plane -->
+        <geom name="ground" type="plane" size="2 2 0.1" rgba="0.9 0.9 0.9 1"/>
+
+        <!-- Pendulum base -->
+        <body name="cart" pos="0 0 0.1">
+            <!-- Hinge joint allows rotation in x-z plane -->
+            <joint name="hinge" type="hinge" axis="0 1 0" limited="false" damping="0.01"/>
+            
+            <!-- The pendulum rod -->
+            <geom name="rod" type="capsule" fromto="0 0 0 0 0 1" size="0.02" rgba="0.2 0.5 0.8 1" density="1000"/>
+            
+            <!-- Ball at top of pendulum -->
+            <geom name="ball" type="sphere" pos="0 0 1" size="0.05" rgba="1 0 0 1" density="500"/>
+
+            <!-- Mass properties for rod+ball (approximate for balance) -->
+            <inertial pos="0 0 0.5" mass="0.55" diaginertia="0.002 0.002 0.002"/>
+        </body>
+    </worldbody>
+
+    <actuator>
+        <!-- Optional: motor at the hinge -->
+        <motor name="hinge_motor" joint="hinge" ctrlrange="-5 5" />
+    </actuator>
+</mujoco>
